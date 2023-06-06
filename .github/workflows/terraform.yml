@@ -1,11 +1,11 @@
-name: Terraform Workflow
+name: Terraform Workflowke
 on:
   push:
     branches:
       - main
       - feature
 env:
-  TF_CLOUD_ORGANIZATION: "Intuitive"
+  TF_CLOUD_ORGANIZATION: "helius-phani"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "intuitive-terraform-lab"
   CONFIG_DIRECTORY: "./"
@@ -75,7 +75,7 @@ jobs:
         id: plan-upload
         with:
           workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.TF_DIRECTORY }}
+          directory: ${{ env.CONFIG_DIRECTORY }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           speculative: true
 
