@@ -1,74 +1,61 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "4.52.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.4.3"
-    }
-  }
-  required_version = ">= 1.1.0"
+####################################################################
+##  VPC and Subnets creation
+####################################################################
+module "lab-vpc" {
+  source                 = "./modules/vpc/"
+  vpc_cidr               = var.vpc_cidr
+  vpc_subnet_list        = var.vpc_subnet_list
+  region_name            = var.region_name
+  vpc_flowlog_bucket_arn = module.s3-lab.s3_bucket_arn
+  master_prefix          = var.master_prefix
+  env_prefix             = var.env_prefix
+  app_prefix             = var.app_prefix
+  vpc_tags               = var.vpc_tags
+ }
+
+####################################################################
+##  S3 bucket creation
+####################################################################
+module "s3-lab" {
+  source          = "./modules/s3-bucket"
+  s3_bucket_name  = "terraform-lab-${data.aws_region.current.name}-${data.aws_caller_identity.current.account_id}"
+  kms_cmk_arn     = aws_kms_key.s3_key_prod.arn
+  tags            = var.tags
+  lifecycle_rules = var.lifecycle_rules
+}
+resource "aws_s3_bucket_policy" "s3_bucket_policy_prod" {
+  bucket = module.s3-lab.s3_bucket_id
+  policy = data.aws_iam_policy_document.s3_bucket_policy_prod.json
 }
 
-provider "aws" {
-  region = "us-west-2"
+####################################################################
+##  Ec2 Instances creation
+####################################################################
+
+module "ec2_lab" {
+  source = "./modules/ec2-instance"
+  for_each = local.multiple_instances
+  name = "lab-ec2-${each.key}"
+  instance_type          = each.value.instance_type
+  availability_zone      = each.value.availability_zone
+  subnet_id              = each.value.subnet_id
+  enable_volume_tags = false
+  root_block_device  = lookup(each.value, "root_block_device", [])
+  tags = var.tags
 }
 
-resource "random_pet" "sg" {}
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+####################################################################
+##  KMS Key creation For S3 Bucket
+####################################################################
+resource "aws_kms_key" "s3_key_prod" {
+  description         = "S3 Encryption key"
+  key_usage           = "ENCRYPT_DECRYPT"
+  enable_key_rotation = true
+  tags                = var.tags
+  policy              = data.aws_iam_policy_document.s3_key_policy_prod.json
 }
-
-resource "aws_instance" "web" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y apache2
-              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
-              echo "Hello World" > /var/www/html/index.html
-              systemctl restart apache2
-              EOF
-}
-
-resource "aws_security_group" "web-sg" {
-  name = "${random_pet.sg.id}-sg"
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  // connectivity to ubuntu mirrors is required to run `apt-get update` and `apt-get install apache2`
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
+resource "aws_kms_alias" "s3_key_alias" {
+  name          = "alias/s3-key-alias-prod"
+  target_key_id = aws_kms_key.s3_key_prod.key_id
 }
