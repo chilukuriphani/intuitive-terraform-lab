@@ -1,8 +1,17 @@
 variable "region_name" {
   type        = string
   description = "AWS Region"
-  default     = "ap-southeast-1"
+  default     = "us-east-1"
 }
+variable "AWS_ACCESS_KEY_ID" {
+  description = "AWS Access Key"
+  type        = string
+}
+variable "AWS_SECRET_ACCESS_KEY" {
+  description = "AWS Secret Key"
+  type        = string
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)

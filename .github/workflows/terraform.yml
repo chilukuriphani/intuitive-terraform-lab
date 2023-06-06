@@ -76,7 +76,6 @@ jobs:
         with:
           workspace: ${{ env.TF_WORKSPACE }}
           directory: ${{ env.CONFIG_DIRECTORY }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           speculative: true
 
       - name: Create Plan Run

@@ -2,7 +2,7 @@
 # AWS
 # ---------------------------------------------------------------------------------------
 provider "aws" {
-  region = var.region_name
+  region = "us-east-1"
   alias  = "aws-intutive"
   assume_role {
     role_arn = "arn:aws:iam::413909889773:role/TerraformExecutionRole"
@@ -15,19 +15,17 @@ provider "aws" {
 # Terraform
 # ---------------------------------------------------------------------------------------
 terraform {
+  cloud {
+        organization = "helius-phani"
+        workspaces {
+          name = "intuitive-terraform-lab" 
+        }
+      }
   required_version = ">= 1.1.7"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = ">= 4.15.1"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.11.0"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = ">= 2.5.1"
     }
     local = {
       source  = "hashicorp/local"

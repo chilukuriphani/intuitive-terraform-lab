@@ -1,4 +1,4 @@
-region_name = "ap-southeast-1"
+region_name = "us-east-1"
 tags = {
   "terraform"   = true
   "environment" = "prod"
