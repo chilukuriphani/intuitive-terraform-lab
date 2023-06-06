@@ -75,7 +75,7 @@ jobs:
         id: plan-upload
         with:
           workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.CONFIG_DIRECTORY }}
+          directory: ${{ env.TF_DIRECTORY }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           speculative: true
 
