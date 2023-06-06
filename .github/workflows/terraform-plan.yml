@@ -1,7 +1,8 @@
 name: Terraform Workflow
 on:
   pull_request:
-
+  branches:
+    - main
   env:
   TF_CLOUD_ORGANIZATION: "Intuitive"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
