@@ -53,7 +53,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-       - name: Terraform Init
+      - name: Terraform Init
         id: init
         run: |
           export TF_WORKSPACE="intuitive-terraform-lab"
