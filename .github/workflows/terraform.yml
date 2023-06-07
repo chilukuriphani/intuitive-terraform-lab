@@ -9,6 +9,9 @@ env:
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "intuitive-terraform-lab"
   CONFIG_DIRECTORY: "./"
+   # Credentials for deployment to AWS
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 jobs:
   validate:
     name: Validate Terraform
@@ -85,9 +88,10 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Plan
+      - name: Plan
         id: plan
-        with:
-          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
         run: terraform plan
         continue-on-error: true
+        env:
+          AWS_ACCESS_KEY_ID: "${{ secrets.GITHUB_TOKEN }}"
+          AWS_SECRET_ACCESS_KEY: ""
