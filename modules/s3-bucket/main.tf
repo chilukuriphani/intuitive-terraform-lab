@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = var.s3_bucket_name
   tags   = var.tags
-  }
+}
 # resource "aws_s3_bucket_acl" "bucket_acl" {
 #   bucket = aws_s3_bucket.s3_bucket.id
 #   acl    = var.bucket_acl
@@ -32,7 +32,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_transistion" {
         storage_class = rule.value.sclass
       }
       expiration {
-        days          = rule.value.expire
+        days = rule.value.expire
       }
       filter {
         prefix = rule.value.prefix

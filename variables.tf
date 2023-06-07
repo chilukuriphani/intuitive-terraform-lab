@@ -43,5 +43,5 @@ variable "vpc_tags" {
 
 #######  EC2  #######
 variable "lab_instances" {
-     description = "Lab ec2 details"
-     }
+  description = "Lab ec2 details"
+}

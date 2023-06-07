@@ -12,7 +12,7 @@ locals {
     ]
   ])
   subnet_names_list = keys(var.vpc_subnet_list)
-  }
+}
 
 resource "aws_vpc" "vpc" {
   cidr_block           = var.vpc_cidr

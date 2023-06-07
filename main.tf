@@ -12,7 +12,7 @@ module "lab-vpc" {
   env_prefix             = var.env_prefix
   app_prefix             = var.app_prefix
   vpc_tags               = var.vpc_tags
- }
+}
 
 ####################################################################
 ##  S3 bucket creation
@@ -34,15 +34,15 @@ resource "aws_s3_bucket_policy" "s3_bucket_policy_prod" {
 ####################################################################
 
 module "ec2_lab" {
-  source = "./modules/ec2-instance"
-  for_each = local.multiple_instances
-  name = "lab-ec2-${each.key}"
-  instance_type          = each.value.instance_type
-  availability_zone      = each.value.availability_zone
-  subnet_id              = each.value.subnet_id
+  source             = "./modules/ec2-instance"
+  for_each           = local.multiple_instances
+  name               = "lab-ec2-${each.key}"
+  instance_type      = each.value.instance_type
+  availability_zone  = each.value.availability_zone
+  subnet_id          = each.value.subnet_id
   enable_volume_tags = false
   root_block_device  = lookup(each.value, "root_block_device", [])
-  tags = var.tags
+  tags               = var.tags
 }
 
 ####################################################################
