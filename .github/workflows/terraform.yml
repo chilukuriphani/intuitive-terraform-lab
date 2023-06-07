@@ -100,17 +100,9 @@ jobs:
         id: plan-comment
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          retries: 3
+          retry-exempt-status-codes: 400,401
           script: |
-            // Get pull requests that are open for current ref.
-            const pullRequests = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
-              })
-            // Set issue number for following calls from context (if on pull request event) or from above variable.
-            const issueNumber = context.issue.number || pullRequests.data[0].number
-            
             // 1. Retrieve existing bot comments for the PR
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
