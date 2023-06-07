@@ -12,12 +12,12 @@ provider "aws" {
 # Terraform
 # ---------------------------------------------------------------------------------------
 terraform {
-  cloud {
-        organization = "helius-phani"
-        workspaces {
-          name = "intuitive-terraform-lab" 
-        }
-      }
+  # cloud {
+  #       organization = "helius-phani"
+  #       workspaces {
+  #         name = "intuitive-terraform-lab" 
+  #       }
+  #     }
   required_version = ">= 1.1.7"
   required_providers {
     aws = {
@@ -45,7 +45,7 @@ terraform {
   }
   */
 }
-credentials "app.terraform.io" {
-    token = "yZz4wTJYmBFnHA.atlasv1.qOQWfXEq6jsDmyvdCI8vUmWV0lFknFD5bMUpVMty0aJuZq2zypeTfM5yyX5OREz6cIc"
-  # this being a team or user token (not an organisation token)
-}
+# credentials "app.terraform.io" {
+#     token = "yZz4wTJYmBFnHA.atlasv1.qOQWfXEq6jsDmyvdCI8vUmWV0lFknFD5bMUpVMty0aJuZq2zypeTfM5yyX5OREz6cIc"
+#   # this being a team or user token (not an organisation token)
+# }
