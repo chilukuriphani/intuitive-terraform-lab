@@ -64,6 +64,10 @@ jobs:
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
       contents: read
       pull-requests: write
     steps:
@@ -74,6 +78,9 @@ jobs:
           ACTIONS_STEP_DEBUG: true
       
       - name: Terraform fmt
+        env: 
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
