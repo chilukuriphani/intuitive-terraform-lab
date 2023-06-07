@@ -87,5 +87,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
         run: terraform plan
         continue-on-error: true
