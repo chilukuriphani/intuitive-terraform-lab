@@ -33,8 +33,8 @@ terraform {
       version = ">= 3.1"
     }
   }
-  credentials "app.terraform.io" {
-  token = "yZz4wTJYmBFnHA.atlasv1.qOQWfXEq6jsDmyvdCI8vUmWV0lFknFD5bMUpVMty0aJuZq2zypeTfM5yyX5OREz6cIc"
+    credentials "app.terraform.io" {
+    token = "yZz4wTJYmBFnHA.atlasv1.qOQWfXEq6jsDmyvdCI8vUmWV0lFknFD5bMUpVMty0aJuZq2zypeTfM5yyX5OREz6cIc"
   # this being a team or user token (not an organisation token)
 }
   /*
@@ -48,3 +48,4 @@ terraform {
   }
   */
 }
+
