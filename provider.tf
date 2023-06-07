@@ -1,15 +1,11 @@
-/*
+
 # ---------------------------------------------------------------------------------------
 # AWS
 # ---------------------------------------------------------------------------------------
 provider "aws" {
   region = "us-east-1"
-  alias  = "aws-intutive"
   assume_role {
     role_arn = "arn:aws:iam::413909889773:role/TerraformExecutionRole"
-  }
-  default_tags {
-    tags = var.tags
   }
 }
 # ---------------------------------------------------------------------------------------
@@ -37,7 +33,7 @@ terraform {
       version = ">= 3.1"
     }
   }
-  
+  /*
   // Terraform Backend
   backend "s3" {
     region         = "us-east-1"
@@ -46,6 +42,5 @@ terraform {
     key            = "lab/terraform.tfstate"
     dynamodb_table = "lab-tf-state-lock"
   }
-  
+  */
 }
-*/
