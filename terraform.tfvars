@@ -1,4 +1,4 @@
-region_name = "ap-southeast-1"
+region_name = "us-east-1"
 tags = {
   "terraform"   = true
   "environment" = "prod"
@@ -7,7 +7,7 @@ tags = {
 master_prefix = "intutive"
 env_prefix    = "prod"
 app_prefix    = "lab"
-vpc_cidr = "10.241.80.0/20"
+vpc_cidr      = "10.241.80.0/20"
 
 # # Number prefixes indicate order of subnets in map. Do not change. Change to order lead to replacement of subnet resource
 vpc_subnet_list = {
@@ -16,19 +16,19 @@ vpc_subnet_list = {
     "b" = "10.240.16.16/28"
   }
 }
-vpc_tags             = null
+vpc_tags = null
 #### EC2 #####
 lab_instances = [
   {
     "instance_name" : "terraform-lab-1",
     "no_of_instances" : "1",
-    "zone_name" :"1a",
+    "zone_name" : "1a",
     "subnet_id" : "subnet-0ef0c17bf74ddd84b",
   },
-    {
+  {
     "instance_name" : "terraform-lab-2",
     "no_of_instances" : "1",
-     "zone_name" :"1b",
+    "zone_name" : "1b",
     "subnet_id" : "subnet-0c619ce14e4ba50ae",
   }
 ]

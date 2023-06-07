@@ -1,7 +1,7 @@
 variable "region_name" {
   type        = string
   description = "AWS Region"
-  default     = "ap-southeast-1"
+  default     = "us-east-1"
 }
 variable "tags" {
   description = "A map of tags to add to all resources"
@@ -43,5 +43,5 @@ variable "vpc_tags" {
 
 #######  EC2  #######
 variable "lab_instances" {
-     description = "Lab ec2 details"
-     }
+  description = "Lab ec2 details"
+}
